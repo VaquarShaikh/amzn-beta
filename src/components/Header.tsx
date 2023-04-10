@@ -13,14 +13,14 @@ import { Product } from "../types/producttypes"
 import { useReadLocalStorage } from "usehooks-ts"
 
 function Header() {
-	// const [count, setCount] = useState<{ items: Product[] }>({ items: [] })
+	const [count, setCount] = useState<{ items: Product[] }>({ items: [] })
 
-	// useEffect(() => {
-	// 	const count = JSON.parse(localStorage.getItem("count")!)
-	// 	if (count) {
-	// 		setCount(count)
-	// 	}
-	// }, [])
+	useEffect(() => {
+		const count = JSON.parse(localStorage.getItem("count")!)
+		if (count) {
+			setCount(count)
+		}
+	}, [])
 
 	const items = useSelector(selectItems)
 

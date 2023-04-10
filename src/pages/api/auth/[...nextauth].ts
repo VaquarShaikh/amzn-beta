@@ -1,7 +1,15 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter"
+import { Redis } from "@upstash/redis"
 
 export const authOptions: NextAuthOptions = {
+	adapter: UpstashRedisAdapter(
+		new Redis({
+			url: process.env.UPSTASH_REDIS_URL,
+			token: process.env.UPSTASH_REDIS_TOKEN,
+		})
+	),
 	callbacks: {
 		async session({ session, token, user }) {
 			return session

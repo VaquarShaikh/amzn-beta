@@ -1,5 +1,6 @@
 import {
 	configureStore,
+	createEntityAdapter,
 	createListenerMiddleware,
 	getDefaultMiddleware,
 } from "@reduxjs/toolkit"
@@ -8,21 +9,21 @@ import basketReducer, {
 	removeFromBasket,
 } from "../features/basketSlice"
 
-// const listenerMiddleware = createListenerMiddleware()
+const listenerMiddleware = createListenerMiddleware()
 
-// listenerMiddleware.startListening({
-// 	actionCreator: addToBasket,
-// 	effect: (action, listenerApi) =>
-// 		localStorage.setItem(
-// 			"count",
-// 			JSON.stringify((listenerApi.getState() as RootState).basket)
-// 		),
-// })
-
+listenerMiddleware.startListening({
+	actionCreator: addToBasket,
+	effect: (action, listenerApi) => {
+		localStorage.setItem(
+			"count",
+			JSON.stringify((listenerApi.getState() as RootState).basket)
+		)
+	},
+})
 export const store = configureStore({
 	reducer: { basket: basketReducer },
-	// middleware: (getDefaultMiddleware) =>
-	// 	getDefaultMiddleware().prepend(listenerMiddleware.middleware),
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
